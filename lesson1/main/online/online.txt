@@ -1,0 +1,10 @@
+name:Vitalik
+city:Lviv
+name:Anya
+age:25
+city:Ternopil
+age:17
+name:Sasha
+city:Lviv
+age:23
+

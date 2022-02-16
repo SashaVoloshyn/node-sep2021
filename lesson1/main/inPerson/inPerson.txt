@@ -1,0 +1,10 @@
+name:Alina
+age:20
+city:Kyiv
+age:16
+name:Nastya
+city:Kharkiv
+name:Alex
+city:Odessa
+age:18
+
