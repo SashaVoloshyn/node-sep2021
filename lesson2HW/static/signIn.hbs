@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .form {
+            width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            row-gap: 15px;
+            justify-content: center;
+        }
+        .form input{
+            height: 30px;
+            width: 100%;
+        }
+    </style>
+    <title>signIn</title>
+</head>
+<body>
+<form class="form" method="post" action="/signIn">
+    <label>
+        <input type="email" name="email" placeholder="email">
+    </label>
+
+    <label>
+        <input type="password" name="password"  placeholder="password">
+    </label>
+    <input type="submit" value="signIn">
+</form>
+<div class="form"> Dont have account ?<a href="http://localhost:5400/login"><button>GO TO REGISTER</button></a></div>
+</body>
+</html>

@@ -12,7 +12,26 @@ app.set('view engine', '.hbs');
 app.engine('.hbs', engine({defaultLayout: false}));
 app.set('views', path.join(__dirname, 'static'));
 
-const users = [];
+const users = [
+    {
+        firstName: 'Oleg',
+        lastName: 'zzq',
+        email: 'testmail1@gmail.com',
+        password: '123545',
+        age: '20',
+        city: 'Kyiv',
+        id: 1
+    },
+    {
+        firstName: 'Alena',
+        lastName: 'yuasdjkwe',
+        email: 'testmail2@gmail.com',
+        password: '1234578',
+        age: '18',
+        city: 'Kyiv',
+        id: 2
+    },
+];
 let error = '';
 
 app.get('/login', (req, res) => {
@@ -64,6 +83,27 @@ app.get('/users/:userId', (req, res) => {
     res.render('userInfo', { user });
 });
 
+app.post("/users/:userId", (req,res) => {
+    const { userId } = req.params;
+    const userIndex = users[userId-1];
+    users.splice(users.indexOf(userIndex),1);
+    res.redirect("/users");
+});
+
+
+app.get('/signIn', (req, res) => {
+    res.render('signIn');
+});
+
+app.post('/signIn', (req, res) => {
+    const user = users.find(user => user.email === req.body.email && user.password === req.body.password);
+    if (!user) {
+        res.render('notFound')
+        return
+    }
+
+    res.render('userInfo', {user})
+});
 
 app.use((req, res) => {
     res.render('notFound');
