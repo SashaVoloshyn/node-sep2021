@@ -83,10 +83,12 @@ app.get('/users/:userId', (req, res) => {
     res.render('userInfo', { user });
 });
 
-app.post("/users/:userId", (req,res) => {
-    const { userId } = req.params;
+app.post("/users/:userId", ({params:{userId}},res) => {
     const userIndex = users[userId-1];
     users.splice(users.indexOf(userIndex),1);
+
+
+
     res.redirect("/users");
 });
 
