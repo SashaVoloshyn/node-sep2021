@@ -19,7 +19,7 @@ const users = [
         email: 'testmail1@gmail.com',
         password: '123545',
         age: '20',
-        city: 'Kyiv',
+        city: 'Lviv',
         id: 1
     },
     {
