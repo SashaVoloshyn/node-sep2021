@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .userInfo {
+            width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            font-size: 23px;
+        }
+    </style>
+    <title>userInfo</title>
+</head>
+<body>
+<h1>user Info</h1>
+
+<div class="userInfo">
+    <div>id:{{user.id}}</div>
+    <div>firstName:{{user.firstName}}</div>
+    <div>lastName:{{user.lastName}}</div>
+    <div>age:{{user.age}}</div>
+    <div>email:{{user.email}}</div>
+    <div>city:{{user.city}}</div>
+
+</div>
+
+</body>
+</html>
