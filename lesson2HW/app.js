@@ -39,23 +39,27 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    if (users.some(user => user.email === req.body.email)) {
+    const userEmail = users.some(user => user.email === req.body.email);
+
+    if (userEmail) {
         error = 'User with this email exist';
         res.redirect('/error');
 
         return;
     }
 
-    users.push({ ...req.body, id: users.length ? users[users.length - 1].id + 1 : 1 });
+    users.push({...req.body, id: users.length ? users[users.length - 1].id + 1 : 1 });
     res.redirect('/users');
 });
 
 app.get('/users', (req, res) => {
     if (Object.keys(req.query).length) {
         let queryResult = [...users];
+
         if (req.query.city) {
             queryResult = queryResult.filter(user => user.city === req.query.city);
         }
+
         if (req.query.age) {
             queryResult = queryResult.filter(user => user.age === req.query.age);
         }
@@ -67,13 +71,13 @@ app.get('/users', (req, res) => {
     res.render('users', { users });
 });
 
-
 app.get('/error', (req, res) => {
     res.render('error', { error });
 });
 
 app.get('/users/:userId', (req, res) => {
     const user = users.find(user => user.id === +req.params.userId);
+
     if (!user) {
         error = `User with ID: ${req.params.userId} not exist!`;
         res.redirect('/error');
@@ -87,8 +91,6 @@ app.post("/users/:userId", ({params:{userId}},res) => {
     const userIndex = users[userId-1];
     users.splice(users.indexOf(userIndex),1);
 
-
-
     res.redirect("/users");
 });
 
@@ -99,18 +101,18 @@ app.get('/signIn', (req, res) => {
 
 app.post('/signIn', (req, res) => {
     const user = users.find(user => user.email === req.body.email && user.password === req.body.password);
+
     if (!user) {
-        res.render('notFound')
-        return
+        res.render('notFound');
+        return;
     }
 
-    res.render('userInfo', {user})
+    res.render('userInfo', {user});
 });
 
 app.use((req, res) => {
     res.render('notFound');
 });
-
 
 app.listen(5400, () => {
     console.log('Server has started on PORT 5400');
