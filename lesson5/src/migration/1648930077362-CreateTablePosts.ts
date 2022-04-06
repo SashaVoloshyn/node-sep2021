@@ -16,7 +16,7 @@ export class CreateTablePosts1648930077362 implements MigrationInterface {
                 {
                     name: 'title',
                     type: 'varchar',
-                    width: 250,
+                    width: 255,
                     isUnique: true,
                     isNullable: false,
                 },
@@ -24,7 +24,7 @@ export class CreateTablePosts1648930077362 implements MigrationInterface {
                 {
                     name: 'text',
                     type: 'varchar',
-                    width: 250,
+                    width: 255,
                     isNullable: false,
                 },
 
