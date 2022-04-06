@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.get('/users', async (req: Request, res: Response) => {
-    const users = await getManager().getRepository(User).find();
+    const users = await getManager().getRepository(User).find({ relations: ['posts'] });
     console.log(users);
     res.json(users);
 });
@@ -37,7 +37,7 @@ app.patch('/users/:id', async (req, res) => {
 app.delete('/users/:id', async (req, res) => {
     const createdUser = await getManager()
         .getRepository(User)
-        .delete({ id: Number(req.params.id) });
+        .softDelete({ id: Number(req.params.id) });
     res.json(createdUser);
 });
 

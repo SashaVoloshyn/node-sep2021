@@ -41,7 +41,7 @@ export class CreateTablePosts1648930077362 implements MigrationInterface {
                 },
 
                 {
-                    name: 'deleteAt',
+                    name: 'deletedAt',
                     type: 'timestamp',
                     isNullable: true,
                 },
