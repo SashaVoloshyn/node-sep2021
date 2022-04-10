@@ -48,6 +48,18 @@ class UserRepository extends Repository<User> {
         return newUser;
     }
 
+    public async updateFields(id: number, password: string, email: string, phone: string)
+        : Promise<UpdateResult> {
+        const update = await getManager()
+            .getRepository(User)
+            .update({ id }, {
+                password,
+                email,
+                phone,
+            });
+        return update;
+    }
+
     public async removeById(id:number):Promise<UpdateResult> {
         const remove = await getManager()
             .getRepository(User)

@@ -1,7 +1,12 @@
 import { Router } from 'express';
+import { userRouter } from './userRouter';
+import { postRouter } from './postRouter';
+import { commentRouter } from './commentRouter';
+import { authRouter } from './authRouter';
 
-const router = Router();
+export const apiRouter = Router();
 
-router.use('/users');
-
-export const apiRouter = router;
+apiRouter.use('/users', userRouter);
+apiRouter.use('/posts', postRouter);
+apiRouter.use('/comments', commentRouter);
+apiRouter.use('/auth', authRouter);

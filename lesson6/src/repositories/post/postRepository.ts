@@ -24,7 +24,7 @@ class PostRepository extends Repository<Post> {
         return post;
     }
 
-    public async CreateOne(post:IPost):Promise<IPost> {
+    public async createOne(post:IPost):Promise<IPost> {
         const newPost = await getManager()
             .getRepository(Post)
             .save(post);
@@ -40,13 +40,14 @@ class PostRepository extends Repository<Post> {
         return posts;
     }
 
-    public async updateFieldValue(id:number, text:string):Promise<UpdateResult> {
-        const newText = await getManager()
+    public async updatePost(id:number, title:string, text:string):Promise<UpdateResult> {
+        const newPost = await getManager()
             .getRepository(Post)
             .update({ id }, {
+                title,
                 text,
             });
-        return newText;
+        return newPost;
     }
 
     public async removeById(id:number):Promise<UpdateResult> {

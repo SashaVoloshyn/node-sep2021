@@ -35,6 +35,13 @@ class UserService {
         return user;
     }
 
+    public async updateFields(id:number, password:string, email:string, phone:string)
+        :Promise<UpdateResult> {
+        const passwordHashed = await this._hashPassword(password);
+        const update = await userRepository.updateFields(id, passwordHashed, email, phone);
+        return update;
+    }
+
     public async getByPhone(phone:string):Promise<IUser | undefined> {
         const user = await userRepository.getOneByPhone(phone);
         return user;
