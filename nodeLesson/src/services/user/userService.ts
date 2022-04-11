@@ -2,9 +2,9 @@ import bcrypt from 'bcrypt';
 
 import { UpdateResult } from 'typeorm';
 
-import { IUser } from '../../interfaces/users.interface';
+import { IUser } from '../../interfaces';
 import { userRepository } from '../../repositories/user/userRepository';
-import { config } from '../../configs/config';
+import { config } from '../../configs';
 
 class UserService {
     public async getAll():Promise<IUser[]> {

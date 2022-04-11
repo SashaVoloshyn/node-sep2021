@@ -2,8 +2,8 @@ import {
     EntityRepository, getManager, Repository, UpdateResult,
 } from 'typeorm';
 
-import { Post } from '../../entity/postsEntity';
-import { IPost } from '../../interfaces/posts.interface';
+import { Post } from '../../entity';
+import { IPost } from '../../interfaces';
 
 @EntityRepository(Post)
 class PostRepository extends Repository<Post> {

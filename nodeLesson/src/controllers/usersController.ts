@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
-import { IUser } from '../interfaces/users.interface';
-import { userService } from '../services/user/userService';
+import { IUser } from '../interfaces';
+import { userService } from '../services';
 
 class UserController {
     public async getAll(_:any, res:Response):Promise<Response<IUser[]>> {

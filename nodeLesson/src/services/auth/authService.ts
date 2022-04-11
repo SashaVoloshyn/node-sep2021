@@ -1,8 +1,6 @@
-import { IRoleToken } from '../../interfaces/token.interface';
-import { IUser } from '../../interfaces/users.interface';
+import { IRole, IRoleToken, IUser } from '../../interfaces';
 import { userService } from '../user/userService';
 import { roleService } from '../role/roleService';
-import { IRole } from '../../interfaces/role.interface';
 import { tokenService } from '../token/tokenService';
 
 class AuthService {

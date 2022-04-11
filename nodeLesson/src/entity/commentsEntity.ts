@@ -5,8 +5,8 @@ import {
 import { CommonFields } from './commonFields';
 import { Post } from './postsEntity';
 import { User } from './usersEntity';
-import { IComment } from '../interfaces/comments.interface';
-import { config } from '../configs/config';
+import { IComment } from '../interfaces';
+import { config } from '../configs';
 
 @Entity('Comments', { database: config.MYSQL_DATABASE_NAME })
 export class Comment extends CommonFields implements IComment {

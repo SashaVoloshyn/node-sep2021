@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { userController } from '../controllers/usersController';
+import { userController } from '../controllers';
 import { userPatchFieldsMiddleware } from '../middlewares/userPatchFields.middleware';
 import { userUniqueValueFieldsMiddleware } from '../middlewares/userUniqueNewValueFieldsParch.middleware';
 import { userFieldsFilledMiddleware } from '../middlewares/userFieldsFilled.middleware';

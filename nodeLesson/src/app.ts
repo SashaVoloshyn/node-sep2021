@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 import express from 'express';
 import { createConnection } from 'typeorm';
-import { apiRouter } from './routes/apiRouter';
-import { config } from './configs/config';
+
+import { config } from './configs';
+import { apiRouter } from './routes';
 
 const app = express();
 app.use(express.json());

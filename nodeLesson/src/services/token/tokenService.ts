@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { UpdateResult } from 'typeorm';
 
-import { IRole } from '../../interfaces/role.interface';
-import { IRefreshToken, ITokenPair } from '../../interfaces/token.interface';
-import { config } from '../../configs/config';
+import { IRefreshToken, IRole, ITokenPair } from '../../interfaces';
+import { config } from '../../configs';
 import { tokenRepository } from '../../repositories/token/tokenRepository';
 
 class TokenService {

@@ -3,8 +3,8 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { CommonFields } from './commonFields';
 import { Post } from './postsEntity';
 import { Comment } from './commentsEntity';
-import { IUser } from '../interfaces/users.interface';
-import { config } from '../configs/config';
+import { IUser } from '../interfaces';
+import { config } from '../configs';
 
 @Entity('Users', { database: config.MYSQL_DATABASE_NAME })
 export class User extends CommonFields implements IUser {

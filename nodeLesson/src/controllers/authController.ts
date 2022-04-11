@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
-import { IRoleToken } from '../interfaces/token.interface';
-import { authService } from '../services/auth/authService';
-import { COOKIE } from '../constants/cookie';
+import { IRoleToken } from '../interfaces';
+import { COOKIE } from '../constants';
+import { authService } from '../services';
 
 class AuthController {
     public async registration(req: Request, res: Response):Promise<Response<IRoleToken>> {

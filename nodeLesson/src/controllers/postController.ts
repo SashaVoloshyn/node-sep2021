@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
-import { IPost } from '../interfaces/posts.interface';
-import { postService } from '../services/post/postService';
+import { IPost } from '../interfaces';
+import { postService } from '../services';
 
 class PostController {
     public async getAll(_: any, res:Response):Promise<Response<IPost[]>> {

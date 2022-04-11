@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
-import { IComment } from '../interfaces/comments.interface';
-import { commentService } from '../services/comment/commentService';
+import { IComment } from '../interfaces';
+import { commentService } from '../services';
 
 class CommentController {
     public async getAll(_:any, res:Response):Promise<Response<IComment[]>> {

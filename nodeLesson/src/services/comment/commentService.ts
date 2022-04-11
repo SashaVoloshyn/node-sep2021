@@ -1,6 +1,6 @@
 import { UpdateResult } from 'typeorm';
 
-import { IComment } from '../../interfaces/comments.interface';
+import { IComment } from '../../interfaces';
 import { commentRepository } from '../../repositories/comment/commentRepository';
 
 class CommentService {

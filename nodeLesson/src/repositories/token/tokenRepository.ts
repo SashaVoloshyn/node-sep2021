@@ -1,7 +1,7 @@
 import { getManager, Repository, UpdateResult } from 'typeorm';
 
-import { Token } from '../../entity/tokensEntity';
-import { IRefreshToken } from '../../interfaces/token.interface';
+import { Token } from '../../entity';
+import { IRefreshToken } from '../../interfaces';
 
 class TokenRepository extends Repository<Token> {
     public async saveToken(refreshToken:IRefreshToken):Promise<IRefreshToken> {

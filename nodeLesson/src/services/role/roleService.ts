@@ -1,5 +1,5 @@
-import { IUser } from '../../interfaces/users.interface';
-import { IRole } from '../../interfaces/role.interface';
+import { IRole, IUser } from '../../interfaces';
+
 import { roleRepository } from '../../repositories/role/roleRepository';
 
 class RoleService {
