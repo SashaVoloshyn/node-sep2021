@@ -3,6 +3,7 @@ import { ICommonFields } from './commonFields.interface';
 
 export interface IToken extends ICommonFields{
     refreshToken: string,
+    accessToken: string,
     userId: number,
     user? : IUser
 }
@@ -12,7 +13,8 @@ export interface ITokenPair {
     refreshToken: string
 }
 
-export interface IRefreshToken{
+export interface ITokenRepository{
+    accessToken: string,
     refreshToken: string,
     userId: number
 }

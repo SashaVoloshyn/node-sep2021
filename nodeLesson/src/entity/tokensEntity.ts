@@ -18,6 +18,13 @@ export class Token extends CommonFields implements IToken {
         refreshToken: string;
 
     @Column({
+        type: 'varchar',
+        width: 255,
+        nullable: false,
+    })
+        accessToken: string;
+
+    @Column({
         type: 'int',
         nullable: false,
     })

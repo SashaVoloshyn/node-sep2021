@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { UpdateResult } from 'typeorm';
 
-import { IRefreshToken, IRole, ITokenPair } from '../../interfaces';
+import { IRole, ITokenPair, ITokenRepository } from '../../interfaces';
 import { config } from '../../configs';
-import { tokenRepository } from '../../repositories/token/tokenRepository';
+import { tokenRepository } from '../../repositories';
 
 class TokenService {
     public async generateTokenPair(payload:IRole):Promise<ITokenPair> {
@@ -24,14 +24,33 @@ class TokenService {
         };
     }
 
-    public async saveToken(refreshToken:IRefreshToken):Promise<IRefreshToken | UpdateResult> {
-        const { userId } = refreshToken;
-        const token = await tokenRepository.findToken(userId);
-        if (token) {
-            token.refreshToken = refreshToken.refreshToken;
-            return tokenRepository.updateToken(token);
+    public async saveToken(tokensPair:ITokenRepository):Promise<ITokenRepository | UpdateResult> {
+        const { userId } = tokensPair;
+        const tokensFromDB = await tokenRepository.findToken(userId);
+        if (tokensFromDB) {
+            tokensFromDB.refreshToken = tokensPair.refreshToken;
+            tokensFromDB.accessToken = tokensPair.accessToken;
+            return tokenRepository.updateToken(tokensFromDB);
         }
-        return tokenRepository.saveToken(refreshToken);
+        return tokenRepository.saveToken(tokensPair);
+    }
+
+    public async deleteTokenPair(userId:number) {
+        await tokenRepository.deleteUserTokenPair({ userId });
+    }
+
+    public async verifyTokens(token: string, type = 'access'): Promise<IRole> {
+        let secretWord = config.SECRET_ACCESS_KEY;
+
+        if (type === 'refresh') {
+            secretWord = config.SECRET_REFRESH_KEY;
+        }
+
+        return jwt.verify(token, secretWord as string) as IRole;
+    }
+
+    public async findToken(userId: number):Promise<ITokenRepository | undefined> {
+        return tokenRepository.findToken(userId);
     }
 }
 
