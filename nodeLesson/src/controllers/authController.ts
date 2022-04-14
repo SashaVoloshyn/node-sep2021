@@ -51,11 +51,7 @@ class AuthController {
         const refresh = await authService.newTokens(req.user as IUser);
         res.clearCookie(COOKIE.nameAccessToken);
         res.clearCookie(COOKIE.nameRefreshToken);
-        res.cookie(
-            COOKIE.nameRefreshToken,
-            'a',
-            { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
-        );
+
         res.cookie(
             COOKIE.nameRefreshToken,
             'a',
