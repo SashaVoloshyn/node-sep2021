@@ -8,7 +8,7 @@ export const authRouter = Router();
 authRouter.post(
     '/registration',
     userMiddleware.validatorRegistration,
-    userMiddleware.checkUserByEmail,
+    userMiddleware.checkExistsEmailAndPhone,
     authController.registration,
 );
 

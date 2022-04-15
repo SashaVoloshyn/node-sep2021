@@ -12,6 +12,6 @@ postRouter.get('/user/:userId', postController.getUserPosts);
 
 postRouter.post('/', postMiddleware.fieldsFilled, postMiddleware.userExists, postController.createOne);
 
-postRouter.patch('/', postMiddleware.fieldsForUpdate, postController.updatePost);
+postRouter.patch('/:postId', postMiddleware.fieldsForUpdate, postController.updatePost);
 
 postRouter.delete('/:postId', postController.removeOne);

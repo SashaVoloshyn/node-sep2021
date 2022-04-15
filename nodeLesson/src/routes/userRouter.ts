@@ -11,11 +11,9 @@ userRouter.get('/:userId', userController.getOne);
 
 userRouter.patch(
     '/:userId',
-    userMiddleware.updateFields,
-    userMiddleware.checkUserByPhone,
-    userMiddleware.checkUserByEmail,
     userMiddleware.checkUserByParams,
-    userMiddleware.isCurrentPassword,
+    userMiddleware.updateFields,
+    userMiddleware.checkExistsEmailAndPhone,
     userController.updateFields,
 );
 

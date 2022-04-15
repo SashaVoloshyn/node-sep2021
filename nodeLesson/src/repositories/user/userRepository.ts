@@ -41,6 +41,16 @@ class UserRepository extends Repository<User> {
         return userByPhone;
     }
 
+    public async getUserByEmailOrByPhone(email:string, phone?:string):Promise<IUser | undefined> {
+        const user = await getManager()
+            .getRepository(User)
+            .createQueryBuilder('user')
+            .where('user.email = :email', { email })
+            .orWhere('user.phone = :phone', { phone })
+            .getOne();
+        return user;
+    }
+
     public async createOne(user:IUser):Promise<IUser> {
         const newUser = await getManager()
             .getRepository(User)

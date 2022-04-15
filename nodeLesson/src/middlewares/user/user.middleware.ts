@@ -34,7 +34,6 @@ class UserMiddleware {
                 next(new ErrorHandler(errParams.message));
                 return;
             }
-
             const { error, value } = userPatchSchema.validate(req.body);
 
             if (error) {
@@ -42,7 +41,7 @@ class UserMiddleware {
                 return;
             }
 
-            req.body = { password: value.currentPassword, newPassword: value.newPassword, userId: params.userId };
+            req.body = { ...req.body, password: value.password, userId: params.userId };
             req.user = value;
 
             next();
@@ -53,18 +52,16 @@ class UserMiddleware {
 
     public async checkUserByParams(req: IRequestUser, _: Response, next: NextFunction) {
         try {
-            const { userId } = req.body;
+            const { userId } = req.params;
 
-            const actualUser = await userService.getOne(userId);
+            const actualUser = await userService.getOne(+userId);
 
             if (!actualUser) {
                 next(new ErrorHandler('Impossible patching because data is invalid'));
                 return;
             }
 
-            const { email, phone } = req.user as IUser;
-
-            req.user = { ...actualUser, email, phone };
+            req.user = { ...actualUser };
 
             next();
         } catch (e) {
@@ -104,17 +101,33 @@ class UserMiddleware {
         }
     }
 
-    public async checkUserByPhone(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
-        try {
-            const { phone } = req.user as IUser;
-            const user = await userRepository.getOneByPhone(phone);
+    // public async checkUserByPhone(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
+    //     try {
+    //         const { phone } = req.user as IUser;
+    //         const user = await userRepository.getOneByPhone(phone);
+    //
+    //         if (!user) {
+    //             next(new ErrorHandler('data invalid'));
+    //             return;
+    //         }
+    //
+    //         req.user = user;
+    //         next();
+    //     } catch (e) {
+    //         next(e);
+    //     }
+    // }
 
-            if (!user) {
-                next(new ErrorHandler('data invalid'));
+    public async checkExistsEmailAndPhone(req:IRequestUser, _:Response, next:NextFunction):Promise<void> {
+        try {
+            const { email, phone } = req.user as IUser;
+            const user = await userRepository.getUserByEmailOrByPhone(email, phone);
+
+            if (user) {
+                next(new ErrorHandler('Data is invalid or User already exists'));
                 return;
             }
 
-            req.user = user;
             next();
         } catch (e) {
             next(e);

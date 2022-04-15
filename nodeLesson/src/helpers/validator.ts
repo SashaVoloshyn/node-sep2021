@@ -9,8 +9,8 @@ class Validator {
             .messages({
                 'string.empty': 'First Name can`t be an empty field',
                 'string.pattern.base': 'First Name should have only Latin letters',
-                'string.min': 'min length : {#limit}',
-                'string.max': 'max length : {#limit}',
+                'string.min': 'min First Name length : {#limit}',
+                'string.max': 'max First Name length : {#limit}',
                 'any.required': 'First Name is a required field',
             }),
 
@@ -19,8 +19,8 @@ class Validator {
             .messages({
                 'string.empty': 'Last Name can`t be an empty field',
                 'string.pattern.base': 'Last Name should have only Latin letters',
-                'string.min': 'min length : {#limit}',
-                'string.max': 'max length : {#limit}',
+                'string.min': 'min Last Name length : {#limit}',
+                'string.max': 'max Last Name length : {#limit}',
                 'any.required': 'Last Name is a required field',
             }),
 
@@ -37,8 +37,8 @@ class Validator {
             .messages({
                 'string.empty': 'phone can`t be an empty field',
                 'string.pattern.base': 'phone should have numbers also allowed "+-" characters and without spaces',
-                'string.min': 'min length : {#limit}',
-                'string.max': 'max length :{#limit}',
+                'string.min': 'min phone length : {#limit}',
+                'string.max': 'max phone length :{#limit}',
                 'any.required': 'phone is a required field',
             }),
 
@@ -49,7 +49,7 @@ class Validator {
                 'any.required': 'email is a required field',
             }),
 
-        password: commonValidator.password.min(8).max(40)
+        password: commonValidator.password.min(8).max(30)
             .alphanum()
             .required()
             .messages({
@@ -69,7 +69,7 @@ class Validator {
                 'any.required': 'email is a required field',
             }),
 
-        password: commonValidator.password.min(8).max(40)
+        password: commonValidator.password.min(8).max(30)
             .alphanum()
             .required()
             .messages({
@@ -89,16 +89,16 @@ class Validator {
         title: Joi.string().min(1).max(250).required()
             .messages({
                 'string.empty': 'text can`t be an empty field',
-                'string.min': 'min length : {#limit}',
-                'string.max': 'max length : {#limit}',
+                'string.min': 'min title length : {#limit}',
+                'string.max': 'max title length : {#limit}',
                 'any.required': 'text is a required field',
             }),
 
-        text: Joi.string().min(1).max(500).required()
+        text: Joi.string().min(1).max(250).required()
             .messages({
                 'string.empty': 'text can`t be an empty field',
-                'string.min': 'min length : {#limit}',
-                'string.max': 'max length : {#limit}',
+                'string.min': 'min text length : {#limit}',
+                'string.max': 'max text length : {#limit}',
                 'any.required': 'text is a required field',
             }),
 
@@ -128,11 +128,11 @@ class Validator {
                 'any.required': 'postId is a required field',
             }),
 
-        text: Joi.string().min(1).max(500).required()
+        text: Joi.string().min(1).max(250).required()
             .messages({
                 'string.empty': 'text can`t be an empty field',
-                'string.min': 'min length : {#limit}',
-                'string.max': 'max length : {#limit}',
+                'string.min': 'min text length : {#limit}',
+                'string.max': 'max text length : {#limit}',
                 'any.required': 'text is a required field',
             }),
     });
@@ -143,8 +143,8 @@ class Validator {
             .messages({
                 'string.empty': 'phone can`t be an empty field',
                 'string.pattern.base': 'phone should have numbers also allowed "+-" characters and without spaces',
-                'string.min': 'min length : {#limit}',
-                'string.max': 'max length :{#limit}',
+                'string.min': 'min phone length : {#limit}',
+                'string.max': 'max phone length :{#limit}',
                 'any.required': 'phone is a required field',
             }),
 
@@ -156,19 +156,9 @@ class Validator {
                 'any.required': 'email is a required field',
             }),
 
-        currentPassword: commonValidator.password.min(8).max(30)
+        password: commonValidator.password.min(8).max(30)
             .alphanum()
             .required()
-            .messages({
-                'string.empty': 'password can`t be an empty field',
-                'string.pattern.base': 'the password must consist of numbers, Latin lowercase and uppercase letters, without spaces.',
-                'string.min': 'min password length : {#limit}',
-                'string.max': 'max password length : {#limit}',
-                'any.required': 'password is a required field',
-            }),
-
-        newPassword: commonValidator.password.min(8).max(30)
-            .alphanum()
             .messages({
                 'string.empty': 'password can`t be an empty field',
                 'string.pattern.base': 'the password must consist of numbers, Latin lowercase and uppercase letters, without spaces.',
