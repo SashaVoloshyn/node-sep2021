@@ -4,6 +4,7 @@ import { UpdateResult } from 'typeorm';
 import { IRole, ITokenPair, ITokenRepository } from '../../interfaces';
 import { config } from '../../configs';
 import { tokenRepository } from '../../repositories';
+import { constants } from '../../constants';
 
 class TokenService {
     public async generateTokenPair(payload:IRole):Promise<ITokenPair> {
@@ -39,10 +40,10 @@ class TokenService {
         await tokenRepository.deleteUserTokenPair({ userId });
     }
 
-    public async verifyTokens(token: string, type = 'access'): Promise<IRole> {
+    public async verifyTokens(token: string, type = constants.ACCESS): Promise<IRole> {
         let secretWord = config.SECRET_ACCESS_KEY;
 
-        if (type === 'refresh') {
+        if (type === constants.REFRESH) {
             secretWord = config.SECRET_REFRESH_KEY;
         }
 

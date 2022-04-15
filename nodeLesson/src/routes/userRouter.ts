@@ -1,17 +1,26 @@
 import { Router } from 'express';
 
 import { userController } from '../controllers';
-import { userPatchFieldsMiddleware } from '../middlewares/userPatchFields.middleware';
-import { userUniqueValueFieldsMiddleware } from '../middlewares/userUniqueNewValueFieldsParch.middleware';
-import { userFieldsFilledMiddleware } from '../middlewares/userFieldsFilled.middleware';
+import { userMiddleware } from '../middlewares';
 
 export const userRouter = Router();
 
 userRouter.get('/', userController.getAll);
+
 userRouter.get('/:userId', userController.getOne);
 
-userRouter.post('/', userFieldsFilledMiddleware, userController.createOne);
+userRouter.patch(
+    '/:userId',
+    userMiddleware.updateFields,
+    userMiddleware.checkUserByPhone,
+    userMiddleware.checkUserByEmail,
+    userMiddleware.checkUserByParams,
+    userMiddleware.isCurrentPassword,
+    userController.updateFields,
+);
 
-userRouter.patch('/:userId', userPatchFieldsMiddleware, userUniqueValueFieldsMiddleware, userController.updateFields);
-
-userRouter.delete('/:userId', userController.remove);
+userRouter.delete(
+    '/:userId',
+    userMiddleware.checkUserByParams,
+    userController.remove,
+);

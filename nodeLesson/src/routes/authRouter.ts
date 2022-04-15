@@ -1,26 +1,37 @@
 import { Router } from 'express';
 
 import { authController } from '../controllers';
-import {
-    authLogoutMiddleware,
-    authorizationMiddleware,
-    tokenPairMiddleware,
-    userExistsMiddleware,
-    userFieldsLoginMiddleware,
-    userSignInMiddleware,
-    userTypeLoginMiddleware,
-} from '../middlewares';
+import { authMiddleware, userMiddleware } from '../middlewares';
 
 export const authRouter = Router();
 
-authRouter.post('/registration', authController.registration);
+authRouter.post(
+    '/registration',
+    userMiddleware.validatorRegistration,
+    userMiddleware.checkUserByEmail,
+    authController.registration,
+);
+
 authRouter.post(
     '/login',
-    userFieldsLoginMiddleware,
-    userTypeLoginMiddleware,
-    userExistsMiddleware,
-    userSignInMiddleware,
+    userMiddleware.validatorLogin,
+    userMiddleware.checkUserByEmail,
+    userMiddleware.isCurrentPassword,
     authController.login,
 );
-authRouter.post('/logout', authorizationMiddleware, authLogoutMiddleware, authController.logout);
-authRouter.post('/refresh', authorizationMiddleware, tokenPairMiddleware, authController.refresh);
+
+authRouter.post(
+    '/logout',
+    authMiddleware.authorization,
+    authMiddleware.checkAccessToken,
+    authMiddleware.isUserFromDB,
+    authController.logout,
+);
+
+authRouter.post(
+    '/refresh',
+    authMiddleware.authorization,
+    authMiddleware.checkRefreshToken,
+    authMiddleware.isUserFromDB,
+    authController.refresh,
+);
