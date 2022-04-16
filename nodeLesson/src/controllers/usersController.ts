@@ -44,6 +44,7 @@ class UserController {
 
     public async remove(req:Request, res:Response):Promise<Response<UpdateResult>> {
         const { userId } = req.params;
+
         const id = Number(userId);
         const remove = await userService.remove(id);
         return res.json(remove);

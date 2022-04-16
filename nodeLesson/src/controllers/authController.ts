@@ -4,11 +4,16 @@ import {
     IRequestAuth, IRequestUser, IRoleToken, IUser,
 } from '../interfaces';
 import { COOKIE } from '../constants';
-import { authService, tokenService } from '../services';
+import { authService, emailService, tokenService } from '../services';
+import { EmailActionEnum } from '../enums';
 
 class AuthController {
     public async registration(req: Request, res: Response):Promise<Response<IRoleToken>> {
         const data = await authService.registration(req.body);
+        const { email } = req.body as IUser;
+
+        await emailService.sendMail(email, EmailActionEnum.REGISTRATION);
+
         res.cookie(
             COOKIE.nameRefreshToken,
             data.refreshToken,
@@ -34,6 +39,11 @@ class AuthController {
 
     public async login(req: IRequestUser, res: Response):Promise<Response<IRoleToken>> {
         const loginData = await authService.newTokens(req.user as IUser);
+
+        const { email } = req.body as IUser;
+
+        await emailService.sendMail(email, EmailActionEnum.WELCOME);
+
         res.cookie(
             COOKIE.nameAccessToken,
             loginData.accessToken,
