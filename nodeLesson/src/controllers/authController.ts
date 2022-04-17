@@ -10,9 +10,11 @@ import { EmailActionEnum } from '../enums';
 class AuthController {
     public async registration(req: Request, res: Response):Promise<Response<IRoleToken>> {
         const data = await authService.registration(req.body);
-        const { email } = req.body as IUser;
+        const { email, firstName } = req.body as IUser;
 
-        await emailService.sendMail(email, EmailActionEnum.REGISTRATION);
+        await emailService.sendMail(email, EmailActionEnum.REGISTRATION, {
+            userName: firstName,
+        });
 
         res.cookie(
             COOKIE.nameRefreshToken,
@@ -39,10 +41,12 @@ class AuthController {
 
     public async login(req: IRequestUser, res: Response):Promise<Response<IRoleToken>> {
         const loginData = await authService.newTokens(req.user as IUser);
-
+        const { firstName } = req.user as IUser;
         const { email } = req.body as IUser;
 
-        await emailService.sendMail(email, EmailActionEnum.WELCOME);
+        await emailService.sendMail(email, EmailActionEnum.WELCOME, {
+            userName: firstName,
+        });
 
         res.cookie(
             COOKIE.nameAccessToken,
