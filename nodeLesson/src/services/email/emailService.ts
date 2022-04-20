@@ -14,7 +14,6 @@ class EmailService {
         },
     });
 
-
     public async sendMail(userEmail: string, action: EmailActionEnum, context:object):Promise<SentMessageInfo> {
         const { subject, templateName } = emailInfo[action];
 

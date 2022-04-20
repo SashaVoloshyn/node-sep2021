@@ -13,3 +13,8 @@ export interface IUser extends ICommonFields{
     comments: IComment[];
 
 }
+
+export interface IUserPayload {
+    userId: number,
+    userEmail: string,
+}

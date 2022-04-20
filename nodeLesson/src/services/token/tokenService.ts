@@ -1,13 +1,17 @@
 import jwt from 'jsonwebtoken';
-import { UpdateResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
-import { IRole, ITokenPair, ITokenRepository } from '../../interfaces';
+import {
+    IActionToken,
+    IActionTokenRepository,
+    IRole, ITokenPair, ITokenRepository, IUserPayload,
+} from '../../interfaces';
 import { config } from '../../configs';
-import { tokenRepository } from '../../repositories';
+import { actionTokenRepository, tokenRepository } from '../../repositories';
 import { constants } from '../../constants';
 
 class TokenService {
-    public async generateTokenPair(payload:IRole):Promise<ITokenPair> {
+    public async generateTokenPair(payload: IRole): Promise<ITokenPair> {
         const accessToken = jwt.sign(
             payload,
             config.SECRET_ACCESS_KEY as string,
@@ -25,7 +29,7 @@ class TokenService {
         };
     }
 
-    public async saveToken(tokensPair:ITokenRepository):Promise<ITokenRepository | UpdateResult> {
+    public async saveToken(tokensPair: ITokenRepository): Promise<ITokenRepository | UpdateResult> {
         const { userId } = tokensPair;
         const tokensFromDB = await tokenRepository.findToken(userId);
         if (tokensFromDB) {
@@ -36,7 +40,7 @@ class TokenService {
         return tokenRepository.saveToken(tokensPair);
     }
 
-    public async deleteTokenPair(userId:number) {
+    public async deleteTokenPair(userId: number) {
         await tokenRepository.deleteUserTokenPair({ userId });
     }
 
@@ -47,12 +51,31 @@ class TokenService {
             secretWord = config.SECRET_REFRESH_KEY;
         }
 
+        if (type === constants.ACTION) {
+            secretWord = config.SECRET_ACTION_KEY;
+        }
+
         return jwt.verify(token, secretWord as string) as IRole;
     }
 
-    public async findToken(userId: number):Promise<ITokenRepository | undefined> {
+    public async findToken(userId: number): Promise<ITokenRepository | undefined> {
         return tokenRepository.findToken(userId);
     }
-}
 
+    public generateActionToken(payload: IUserPayload): String {
+        return jwt.sign(payload, config.SECRET_ACTION_KEY as string, { expiresIn: config.EXPIRES_IN_ACTION });
+    }
+
+    public async saveActionToken(token: IActionTokenRepository): Promise<IActionToken> {
+        return actionTokenRepository.addToken(token);
+    }
+
+    public async deleteActionToken(tokenData: Partial<IActionTokenRepository>): Promise<DeleteResult> {
+        return actionTokenRepository.deleteToken(tokenData);
+    }
+
+    public async findActionToken(userId: Partial<IActionTokenRepository>): Promise<IActionToken | undefined> {
+        return actionTokenRepository.findToken(userId);
+    }
+}
 export const tokenService = new TokenService();

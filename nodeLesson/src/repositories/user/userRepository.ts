@@ -70,6 +70,15 @@ class UserRepository extends Repository<User> {
         return update;
     }
 
+    public async forgotPassword(id:number, password: string):Promise<UpdateResult> {
+        const update = await getManager()
+            .getRepository(User)
+            .update({ id }, {
+                password,
+            });
+        return update;
+    }
+
     public async removeById(id:number):Promise<UpdateResult> {
         const remove = await getManager()
             .getRepository(User)

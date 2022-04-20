@@ -1,20 +1,37 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { IUser } from '../interfaces';
 import { userService } from '../services';
+import { ErrorHandler } from '../error';
 
 class UserController {
-    public async getAll(_:any, res:Response):Promise<Response<IUser[]>> {
-        const users = await userService.getAll();
-        return res.json(users);
+    public async getAll(_:any, res:Response, next: NextFunction):Promise<Response<IUser[]> | undefined> {
+        try {
+            const users = await userService.getAll();
+            if (!users) {
+                next(new ErrorHandler('Service Unavailable', 503));
+                return;
+            }
+            res.json(users);
+        } catch (e) {
+            next(e);
+        }
     }
 
-    public async getOne(req:Request, res:Response):Promise<Response<IUser>> {
-        const { userId } = req.params;
-        const id = Number(userId);
-        const user = await userService.getOne(id);
-        return res.json(user);
+    public async getOne(req:Request, res:Response, next: NextFunction):Promise<Response<IUser> | undefined> {
+        try {
+            const { userId } = req.params;
+            const id = Number(userId);
+            const user = await userService.getOne(id);
+            if (!user) {
+                next(new ErrorHandler('Not Found', 404));
+                return;
+            }
+            res.json(user);
+        } catch (e) {
+            next(e);
+        }
     }
 
     public async getByEmail(req:Request, res:Response):Promise<Response<IUser>> {

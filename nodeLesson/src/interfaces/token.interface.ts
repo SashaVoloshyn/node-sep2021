@@ -25,3 +25,12 @@ export interface IRoleToken {
     userId: number,
     role: string
 }
+
+export interface IActionToken extends ICommonFields {
+    userId: number,
+    token: string,
+}
+export interface IActionTokenRepository {
+    userId: number
+    token: string,
+}
