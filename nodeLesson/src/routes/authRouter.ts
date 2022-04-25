@@ -35,3 +35,17 @@ authRouter.post(
     authMiddleware.isUserFromDB,
     authController.refresh,
 );
+
+authRouter.post(
+    '/forgotPassword',
+    authMiddleware.isEmailValid,
+    userMiddleware.checkUserByEmail,
+    authController.sendForgotPassword,
+);
+
+authRouter.post(
+    '/forgotPassword/set',
+    authMiddleware.isPasswordValid,
+    authMiddleware.checkActionToken,
+    authController.setPassword,
+);

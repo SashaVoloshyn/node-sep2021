@@ -81,6 +81,29 @@ class Validator {
             }),
     });
 
+    public static authEmail: Joi.ObjectSchema = Joi.object({
+        email: commonValidator.email.required()
+            .messages({
+                'string.empty': 'email can`t be an empty field',
+                'string.pattern.base': 'email should have only Latin letters also "@" and without spaces',
+                'any.required': 'email is a required field',
+            }),
+
+    });
+
+    public static authPassword: Joi.ObjectSchema = Joi.object({
+        password: commonValidator.password.min(8).max(30)
+            .alphanum()
+            .required()
+            .messages({
+                'string.empty': 'password can`t be an empty field',
+                'string.pattern.base': 'the password must consist of numbers, Latin lowercase and uppercase letters, without spaces.',
+                'string.min': 'min password length : {#limit}',
+                'string.max': 'max password length : {#limit}',
+                'any.required': 'password is a required field',
+            }),
+    });
+
     public static authTokenSchema: Joi.ObjectSchema = Joi.object({
         authorization: Joi.string().min(3).max(200).required(),
     });
@@ -178,5 +201,5 @@ class Validator {
 }
 
 export const {
-    authSchema, authLoginSchema, authTokenSchema, commentSchema, postSchema, userPatchSchema, paramsSchema,
+    authSchema, authLoginSchema, authEmail, authPassword, authTokenSchema, commentSchema, postSchema, userPatchSchema, paramsSchema,
 } = Validator;

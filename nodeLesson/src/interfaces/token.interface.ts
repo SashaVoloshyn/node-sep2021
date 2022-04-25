@@ -1,6 +1,9 @@
 import { IUser } from './users.interface';
 import { ICommonFields } from './commonFields.interface';
 
+import { ActionTokenTypes } from '../enums';
+import { IRole } from './role.interface';
+
 export interface IToken extends ICommonFields{
     refreshToken: string,
     accessToken: string,
@@ -28,8 +31,21 @@ export interface IRoleToken {
 
 export interface IActionToken extends ICommonFields {
     userId: number,
-    token: string,
+    actionToken: string;
+    type: ActionTokenTypes;
 }
+
+export interface IActionTokenToSave {
+    userId: number;
+    actionToken: string;
+    type: ActionTokenTypes;
+}
+
+export interface IVerifyTokens extends IRole {
+    forgotToken: string,
+    email: string,
+}
+
 export interface IActionTokenRepository {
     userId: number
     token: string,

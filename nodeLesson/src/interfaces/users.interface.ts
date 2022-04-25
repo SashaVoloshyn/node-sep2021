@@ -9,8 +9,8 @@ export interface IUser extends ICommonFields{
     phone: string;
     email: string;
     password: string;
-    posts: IPost[];
-    comments: IComment[];
+    posts?: IPost[];
+    comments?: IComment[];
 
 }
 

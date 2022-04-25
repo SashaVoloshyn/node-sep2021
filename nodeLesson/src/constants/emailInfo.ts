@@ -18,4 +18,8 @@ export const emailInfo = {
         subject: 'Your account has deleted',
         templateName: 'account_deleted',
     },
+    [EmailActionEnum.FORGOT_PASSWORD]: {
+        subject: 'FORGOT_PASSWORD',
+        templateName: 'forgot_password',
+    },
 };

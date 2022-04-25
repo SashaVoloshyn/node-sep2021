@@ -6,10 +6,11 @@ export class CreateTableActionTokens1650476355122 implements MigrationInterface 
             CREATE TABLE IF NOT EXISTS actionTokens (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 userId INT NOT NULL,
-                actionToken VARCHAR(255) NOT NULL,
+                actionToken VARCHAR(250) NOT NULL,
+                type VARCHAR(250) NOT NULL,
                 FOREIGN KEY (userId) REFERENCES Users (id) ON DELETE CASCADE ON UPDATE CASCADE,
-                createAt TIMESTAMP DEFAULT(UTC_TIMESTAMP()) NOT NULL,
-                deleteAt TIMESTAMP
+                createdAt TIMESTAMP DEFAULT(UTC_TIMESTAMP()) NOT NULL,
+                deletedAt TIMESTAMP
             )
         `);
     }

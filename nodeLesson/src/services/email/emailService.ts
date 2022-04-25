@@ -17,7 +17,10 @@ class EmailService {
     public async sendMail(userEmail: string, action: EmailActionEnum, context:object):Promise<SentMessageInfo> {
         const { subject, templateName } = emailInfo[action];
 
-        Object.assign(context, { frontendUrl: config.FRONTEND_URL });
+        Object.assign(context, {
+            frontendUrl: config.FRONTEND_URL,
+            frontendUrlForgot: config.FRONTEND_URL_FORGOT,
+        });
 
         const html = await this.templateRenderer.render(templateName, context);
 

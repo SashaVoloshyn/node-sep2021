@@ -3,31 +3,26 @@ import {
 } from 'typeorm';
 
 import { ActionToken } from '../../entity';
-import { IActionToken, IActionTokenRepository } from '../../interfaces';
+import { IActionToken, IActionTokenToSave } from '../../interfaces';
 
 @EntityRepository(ActionToken)
 class ActionTokenRepository extends Repository<ActionToken> {
-    public async addToken(newToken: IActionTokenRepository): Promise<ActionToken> {
+    public async addToken(newToken: IActionTokenToSave): Promise<ActionToken> {
         const token = await getManager()
             .getRepository(ActionToken)
             .save(newToken);
         return token;
     }
 
-    public async deleteToken(token: Partial<IActionTokenRepository>): Promise<DeleteResult> {
+    public async deleteToken(token: Partial<IActionToken>): Promise<DeleteResult> {
         const deleteResult = await getManager()
             .getRepository(ActionToken)
             .delete(token);
         return deleteResult;
     }
 
-    public async findToken({ userId }: Partial<IActionTokenRepository>): Promise<IActionToken | undefined> {
-        const findOne = await getManager()
-            .getRepository(ActionToken)
-            .createQueryBuilder('token')
-            .where('token.userId = :userId', { userId })
-            .getOne();
-        return findOne;
+    async findByParams(filterObject: Partial<IActionToken>): Promise<IActionToken | undefined> {
+        return getManager().getRepository(ActionToken).findOne(filterObject);
     }
 }
 

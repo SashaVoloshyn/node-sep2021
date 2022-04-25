@@ -21,4 +21,5 @@ export const config = {
     NO_REPLY_EMAIL_PASSWORD: process.env.NO_REPLY_EMAIL_PASSWORD,
 
     FRONTEND_URL: process.env.FRONTEND_URL,
+    FRONTEND_URL_FORGOT: process.env.FRONTEND_URL_FORGOT,
 };

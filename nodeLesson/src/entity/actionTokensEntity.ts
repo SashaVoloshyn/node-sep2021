@@ -6,6 +6,7 @@ import { User } from './usersEntity';
 import { CommonFields } from './commonFields';
 import { config } from '../configs';
 import { IActionToken } from '../interfaces';
+import { ActionTokenTypes } from '../enums';
 
 @Entity('actionTokens', { database: config.MYSQL_DATABASE_NAME })
 
@@ -18,10 +19,17 @@ export class ActionToken extends CommonFields implements IActionToken {
 
     @Column({
         type: 'varchar',
-        width: 255,
+        width: 250,
         nullable: false,
     })
-        token: string;
+        actionToken: string;
+
+    @Column({
+        type: 'varchar',
+        width: 250,
+        nullable: false,
+    })
+        type: ActionTokenTypes;
 
     @OneToOne(() => User)
     @JoinColumn({ name: 'userId' })

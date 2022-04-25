@@ -1,11 +1,14 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import {
-    IRequestAuth, IRequestUser, IRoleToken, IUser,
+    IRequestAuth, IRequestExtended, IRequestUser, IRoleToken, IUser,
 } from '../interfaces';
-import { COOKIE } from '../constants';
-import { authService, emailService, tokenService } from '../services';
-import { EmailActionEnum } from '../enums';
+import { constants, COOKIE } from '../constants';
+import {
+    authService, emailService, tokenService, userService,
+} from '../services';
+import { ActionTokenTypes, EmailActionEnum } from '../enums';
+import { actionTokenRepository } from '../repositories';
 
 class AuthController {
     public async registration(req: Request, res: Response):Promise<Response<IRoleToken>> {
@@ -72,6 +75,39 @@ class AuthController {
             { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
         );
         return res.json(refresh);
+    }
+
+    async sendForgotPassword(req: IRequestExtended, res: Response, next: NextFunction) {
+        try {
+            const { id, email, firstName } = req.user as IUser;
+
+            const token = tokenService.generateActionToken({ userId: id, userEmail: email });
+
+            await actionTokenRepository.addToken({ actionToken: token, type: ActionTokenTypes.forgotPassword, userId: id });
+
+            await emailService.sendMail(email, EmailActionEnum.FORGOT_PASSWORD, {
+                token,
+                userName: firstName,
+            });
+
+            res.sendStatus(204);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async setPassword(req: IRequestExtended, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.user as IUser;
+            const actionToken = req.get(constants.AUTHORIZATION);
+
+            await userService.updateUser(id, req.body.password);
+            await actionTokenRepository.deleteToken({ actionToken });
+
+            res.sendStatus(201);
+        } catch (e) {
+            next(e);
+        }
     }
 }
 

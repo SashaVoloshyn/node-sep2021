@@ -9,3 +9,4 @@ export * from './request/requestAuth.interface';
 export * from './request/requestUser.interface';
 export * from './request/requestPost.interface';
 export * from './request/requestComment.interface';
+export * from './request/requestExtended.interface';

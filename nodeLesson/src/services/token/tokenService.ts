@@ -3,8 +3,8 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 
 import {
     IActionToken,
-    IActionTokenRepository,
-    IRole, ITokenPair, ITokenRepository, IUserPayload,
+    IActionTokenRepository, IActionTokenToSave,
+    IRole, ITokenPair, ITokenRepository, IUserPayload, IVerifyTokens,
 } from '../../interfaces';
 import { config } from '../../configs';
 import { actionTokenRepository, tokenRepository } from '../../repositories';
@@ -44,7 +44,7 @@ class TokenService {
         await tokenRepository.deleteUserTokenPair({ userId });
     }
 
-    public async verifyTokens(token: string, type = constants.ACCESS): Promise<IRole> {
+    public async verifyTokens(token: string, type = constants.ACCESS): Promise<IVerifyTokens> {
         let secretWord = config.SECRET_ACCESS_KEY;
 
         if (type === constants.REFRESH) {
@@ -55,27 +55,23 @@ class TokenService {
             secretWord = config.SECRET_ACTION_KEY;
         }
 
-        return jwt.verify(token, secretWord as string) as IRole;
+        return jwt.verify(token, secretWord as string) as IVerifyTokens;
     }
 
     public async findToken(userId: number): Promise<ITokenRepository | undefined> {
         return tokenRepository.findToken(userId);
     }
 
-    public generateActionToken(payload: IUserPayload): String {
+    public generateActionToken(payload: IUserPayload): string {
         return jwt.sign(payload, config.SECRET_ACTION_KEY as string, { expiresIn: config.EXPIRES_IN_ACTION });
     }
 
-    public async saveActionToken(token: IActionTokenRepository): Promise<IActionToken> {
+    public async saveActionToken(token: IActionTokenToSave): Promise<IActionToken> {
         return actionTokenRepository.addToken(token);
     }
 
     public async deleteActionToken(tokenData: Partial<IActionTokenRepository>): Promise<DeleteResult> {
         return actionTokenRepository.deleteToken(tokenData);
-    }
-
-    public async findActionToken(userId: Partial<IActionTokenRepository>): Promise<IActionToken | undefined> {
-        return actionTokenRepository.findToken(userId);
     }
 }
 export const tokenService = new TokenService();

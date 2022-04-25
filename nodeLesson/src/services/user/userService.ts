@@ -51,6 +51,12 @@ class UserService {
         return bcrypt.compare(password, hashPassword);
     }
 
+    public async updateUser(id: number, password : string): Promise<UpdateResult> {
+        const passwordHashed = await this._hashPassword(password);
+        const update = await userRepository.forgotPassword(id, passwordHashed);
+        return update;
+    }
+
     private async _hashPassword(password:string):Promise<string> {
         return bcrypt.hash(password, Number(config.USER_SALT_ROUNDS));
     }

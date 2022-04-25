@@ -9,7 +9,6 @@ class CommentMiddleware {
     public validator(req:IRequestComment, _:Response, next:NextFunction): void {
         try {
             const { error, value } = commentSchema.validate(req.body);
-            console.log(value);
 
             if (error) {
                 next(new ErrorHandler(error.message));
