@@ -4,6 +4,7 @@ import { createConnection } from 'typeorm';
 
 import { config } from './configs';
 import { apiRouter } from './routes';
+import { cronRun } from './cron';
 
 // @ts-ignore
 global.rootDir = __dirname;
@@ -22,6 +23,7 @@ app.listen(PORT, async () => {
         const connection = await createConnection();
         if (connection) {
             console.log('Database connected');
+            cronRun();
         }
     } catch (err) {
         if (err) console.log(err);

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { IComment } from '../interfaces';
@@ -8,6 +8,18 @@ class CommentController {
     public async getAll(_:any, res:Response):Promise<Response<IComment[]>> {
         const comments = await commentService.getAll();
         return res.json(comments);
+    }
+
+    public async getCommentsPagination(req:Request, res:Response, next:NextFunction) {
+        try {
+            const { page = 1, perPage = 100, ...other } = req.query;
+
+            const commentsPagination = await commentService.getCommentsPagination(other, +page, +perPage);
+
+            res.json(commentsPagination);
+        } catch (e) {
+            next(e);
+        }
     }
 
     public async getOne(req:Request, res:Response):Promise<Response<IComment | undefined>> {

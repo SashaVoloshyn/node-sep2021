@@ -2,14 +2,19 @@ import bcrypt from 'bcrypt';
 
 import { UpdateResult } from 'typeorm';
 
-import { IUser } from '../../interfaces';
-import { userRepository } from '../../repositories/user/userRepository';
+import { IPaginationResponse, IUser } from '../../interfaces';
+import { userRepository } from '../../repositories';
 import { config } from '../../configs';
 
 class UserService {
     public async getAll():Promise<IUser[]> {
         const users = await userRepository.getAll();
         return users;
+    }
+
+    public async getUsersPagination(filterObject: any, page: number, perPage: number)
+    :Promise<Partial<IPaginationResponse<IUser>>> {
+        return userRepository.getUsersPagination(filterObject, perPage, page);
     }
 
     public async getOne(id:number): Promise<IUser | undefined> {

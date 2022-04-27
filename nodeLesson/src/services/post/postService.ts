@@ -1,11 +1,17 @@
 import { UpdateResult } from 'typeorm';
-import { IPost } from '../../interfaces';
-import { postRepository } from '../../repositories/post/postRepository';
+
+import { IPaginationResponse, IPost } from '../../interfaces';
+import { postRepository } from '../../repositories';
 
 class PostService {
     public async getAll():Promise<IPost[]> {
         const posts = await postRepository.getAll();
         return posts;
+    }
+
+    public async getPostsPagination(filterObject: any, page: number, perPage: number)
+        :Promise<IPaginationResponse<IPost>> {
+        return postRepository.getPostsPagination(filterObject, perPage, page);
     }
 
     public async getOne(id:number):Promise<IPost | undefined> {

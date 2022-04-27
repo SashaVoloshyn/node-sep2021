@@ -5,7 +5,7 @@ import { userMiddleware } from '../middlewares';
 
 export const userRouter = Router();
 
-userRouter.get('/', userController.getAll);
+userRouter.get('/', userController.getUsersPagination);
 
 userRouter.get('/:userId', userController.getOne);
 

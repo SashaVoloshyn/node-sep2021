@@ -19,6 +19,18 @@ class UserController {
         }
     }
 
+    public async getUsersPagination(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { page = 1, perPage = 20, ...other } = req.query;
+
+            const usersPagination = await userService.getUsersPagination(other, +page, +perPage);
+
+            res.json(usersPagination);
+        } catch (e) {
+            next(e);
+        }
+    }
+
     public async getOne(req:Request, res:Response, next: NextFunction):Promise<Response<IUser> | undefined> {
         try {
             const { userId } = req.params;

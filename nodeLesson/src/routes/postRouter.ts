@@ -5,7 +5,7 @@ import { postMiddleware } from '../middlewares';
 
 export const postRouter = Router();
 
-postRouter.get('/', postController.getAll);
+postRouter.get('/', postController.getPostsPagination);
 postRouter.get('/:postId', postController.getOne);
 
 postRouter.get('/user/:userId', postController.getUserPosts);

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
 import { IPost } from '../interfaces';
@@ -8,6 +8,18 @@ class PostController {
     public async getAll(_: any, res:Response):Promise<Response<IPost[]>> {
         const posts = await postService.getAll();
         return res.json(posts);
+    }
+
+    public async getPostsPagination(req:Request, res:Response, next:NextFunction) {
+        try {
+            const { page = 1, perPage = 20, ...other } = req.query;
+
+            const postsPagination = await postService.getPostsPagination(other, +page, +perPage);
+
+            res.json(postsPagination);
+        } catch (e) {
+            next(e);
+        }
     }
 
     public async getOne(req:Request, res:Response):Promise<Response<IPost>> {

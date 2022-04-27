@@ -1,12 +1,17 @@
 import { UpdateResult } from 'typeorm';
 
-import { IComment } from '../../interfaces';
-import { commentRepository } from '../../repositories/comment/commentRepository';
+import { IComment, IPaginationResponse } from '../../interfaces';
+import { commentRepository } from '../../repositories';
 
 class CommentService {
     public async getAll():Promise<IComment[]> {
         const comments = await commentRepository.getAll();
         return comments;
+    }
+
+    public async getCommentsPagination(filterObject: any, page: number, perPage: number)
+        :Promise<IPaginationResponse<IComment>> {
+        return commentRepository.getCommentsPagination(filterObject, perPage, page);
     }
 
     public async getOne(id:number):Promise<IComment | undefined> {

@@ -5,7 +5,7 @@ import { commentMiddleware } from '../middlewares';
 
 export const commentRouter = Router();
 
-commentRouter.get('/', commentController.getAll);
+commentRouter.get('/', commentController.getCommentsPagination);
 commentRouter.get('/:commentId', commentController.getOne);
 
 commentRouter.get('/user/:userId', commentController.getUserComments);

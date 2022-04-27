@@ -3,7 +3,7 @@ import {
 } from 'typeorm';
 
 import { Post } from '../../entity';
-import { IPost } from '../../interfaces';
+import { IPaginationResponse, IPost } from '../../interfaces';
 
 @EntityRepository(Post)
 class PostRepository extends Repository<Post> {
@@ -13,6 +13,26 @@ class PostRepository extends Repository<Post> {
             .createQueryBuilder('posts')
             .getMany();
         return posts;
+    }
+
+    public async getPostsPagination(
+        searchObject: Partial<IPost> = {},
+        limit: number = 40,
+        page: number = 1,
+
+    )
+        :Promise<IPaginationResponse<IPost>> {
+        const skip = limit * (page - 1);
+
+        const [posts, itemCount] = await getManager().getRepository(Post)
+            .findAndCount({ where: searchObject, skip, take: limit });
+
+        return {
+            page,
+            perPage: limit,
+            itemCount,
+            data: posts,
+        };
     }
 
     public async getOneById(id:number):Promise<IPost | undefined> {
