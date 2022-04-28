@@ -22,4 +22,9 @@ export const config = {
 
     FRONTEND_URL: process.env.FRONTEND_URL,
     FRONTEND_URL_FORGOT: process.env.FRONTEND_URL_FORGOT,
+
+    S3_NAME: process.env.S3_NAME,
+    S3_REGION: process.env.S3_REGION,
+    S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
+    S3_SECRET_KEY: process.env.S3_SECRET_KEY,
 };

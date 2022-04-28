@@ -1,3 +1,5 @@
+export * from './s3Service';
+
 export * from './auth/authService';
 export * from './comment/commentService';
 export * from './email/emailService';

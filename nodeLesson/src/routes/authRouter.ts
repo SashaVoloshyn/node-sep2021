@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { authController } from '../controllers';
-import { authMiddleware, userMiddleware } from '../middlewares';
+import { authMiddleware, fileMiddleware, userMiddleware } from '../middlewares';
 
 export const authRouter = Router();
 
@@ -9,6 +9,7 @@ authRouter.post(
     '/registration',
     userMiddleware.validatorRegistration,
     userMiddleware.checkExistsEmailAndPhone,
+    fileMiddleware.checkUserAvatar,
     authController.registration,
 );
 

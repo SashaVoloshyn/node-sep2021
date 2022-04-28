@@ -1,35 +1,53 @@
 import { NextFunction, Request, Response } from 'express';
+import { UploadedFile } from 'express-fileupload';
 
 import {
     IRequestAuth, IRequestExtended, IRequestUser, IRoleToken, IUser,
 } from '../interfaces';
 import { constants, COOKIE } from '../constants';
 import {
-    authService, emailService, tokenService, userService,
+    authService, emailService, s3Service, tokenService, userService,
 } from '../services';
 import { ActionTokenTypes, EmailActionEnum } from '../enums';
 import { actionTokenRepository } from '../repositories';
+import { ErrorHandler } from '../error';
 
 class AuthController {
-    public async registration(req: Request, res: Response):Promise<Response<IRoleToken>> {
-        const data = await authService.registration(req.body);
-        const { email, firstName } = req.body as IUser;
+    public async registration(req: Request, res: Response, next:NextFunction):Promise<void> {
+        try {
+            const tokenPairData = await authService.registration(req.body);
+            if (!tokenPairData) {
+                next(new ErrorHandler('Service Unavailable', 503));
+                return;
+            }
 
-        await emailService.sendMail(email, EmailActionEnum.REGISTRATION, {
-            userName: firstName,
-        });
+            res.cookie(
+                COOKIE.nameRefreshToken,
+                tokenPairData.refreshToken,
+                { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
+            );
+            res.cookie(
+                COOKIE.nameAccessToken,
+                tokenPairData.accessToken,
+                { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
+            );
 
-        res.cookie(
-            COOKIE.nameRefreshToken,
-            data.refreshToken,
-            { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
-        );
-        res.cookie(
-            COOKIE.nameAccessToken,
-            data.accessToken,
-            { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
-        );
-        return res.json(data);
+            if (req.files?.avatar) {
+                const avatar = req.files.avatar as UploadedFile;
+                const uploadFile = await s3Service.uploadFile(avatar, 'user', tokenPairData.userId);
+                console.log('upload file', uploadFile);
+                console.log('location (where in S3)', uploadFile.Location);
+            }
+
+            const { email, firstName } = req.body as IUser;
+            await emailService.sendMail(email, EmailActionEnum.REGISTRATION, {
+                userName: firstName,
+            });
+
+            res.json(tokenPairData);
+        } catch (e) {
+            next(e);
+        }
     }
 
     public async logout(req: IRequestUser, res: Response): Promise<Response<string>> {
