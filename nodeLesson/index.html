@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Front</title>
+</head>
+<body>
+
+<button id="sendMessage">SEND</button>
+<button id="join1">JOIN ROOM 1</button>
+<button id="join2">JOIN ROOM 2</button>
+
+<script>
+    const socket = io('http://localhost:3454', { query: 'userId=userId--1&accessToken=accessToken' });//кверю получаєм з беку
+
+    const btn = document.getElementById('sendMessage');
+    const join1 = document.getElementById('join1');
+    const join2 = document.getElementById('join2');
+    btn.onclick = () => {
+        //EMIT СТВОРЮЄ ПОДІЮ
+        socket.emit('message:create', { message: 'Hello -_-' })
+    }
+
+    join1.onclick = () => {
+        socket.emit('join_room', {id: 1})
+    }
+
+    join2.onclick = () => {
+        socket.emit('join_room', {id: 2})
+    }
+
+    // on ОБРОБЛЯЄ ПОДІЮ
+    socket.on('message: get-all', (data) => {
+        console.log(')_))_)_)_)_)_)_)_)_)',data);
+
+    })
+
+    socket.on('user_join_room', (data) => {
+        console.log('_+_+_+_+_+_+',data);
+    })
+
+
+</script>
+
+</body>
+</html>

@@ -8,7 +8,7 @@ import { ErrorHandler } from '../../error';
 class FileMiddleware {
     async checkUserAvatar(req: IRequestExtended, res:Response, next:NextFunction) {
         try {
-            console.log('filemidervare',req.files);
+            console.log('filemidervare', req.files);
 
             if (!req.files?.avatar) {
                 next();
