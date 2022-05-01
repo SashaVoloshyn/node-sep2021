@@ -31,7 +31,7 @@ class StudentController {
             const { studentId } = req.params;
             console.log(studentId);
 
-            const studentDeleted = await studentModel.findOneAndDelete({ id: studentId });
+            const studentDeleted = await studentModel.findOneAndDelete({ _id: studentId });
 
             console.log(studentDeleted);
 
