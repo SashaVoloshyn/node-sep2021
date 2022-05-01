@@ -4,6 +4,7 @@ import fileUpload from 'express-fileupload';
 import http from 'http';
 import { createConnection } from 'typeorm';
 import SocketIO from 'socket.io';
+import mongoose from 'mongoose';
 
 import { config } from './configs';
 import { apiRouter } from './routes';
@@ -52,6 +53,8 @@ io.on('connection', (socket: any) => {
     // TO ROOM INCLUDE SENDER
     // io.to(room_id).emit(event, {})
 });
+
+mongoose.connect(`mongodb://localhost:${config.PORT_MONGO}/${config.MONGODB_NAME}`);
 
 app.use(apiRouter);
 

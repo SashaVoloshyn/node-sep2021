@@ -27,4 +27,7 @@ export const config = {
     S3_REGION: process.env.S3_REGION,
     S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
     S3_SECRET_KEY: process.env.S3_SECRET_KEY,
+
+    PORT_MONGO: process.env.PORT_MONGO,
+    MONGODB_NAME: process.env.MONGODB_NAME,
 };
